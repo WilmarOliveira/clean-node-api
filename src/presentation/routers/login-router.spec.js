@@ -7,26 +7,25 @@ class LoginRouter {
     }
 
     const { email, password } = httpRequest.body
-    if (!email) {
-      return {
-        statusCode: 400,
-        body: new MissingParamError('email')
-      }
-    }
 
-    if (!password) {
-      return {
-        statusCode: 400,
-        body: new MissingParamError('password')
-      }
+    if (!email) return HttpResponse.badRequest('email')
+    if (!password) return HttpResponse.badRequest('password')
+  }
+}
+
+class HttpResponse {
+  static badRequest (paramName) {
+    return {
+      statusCode: 400,
+      body: new MissingParamError(paramName)
     }
   }
 }
 
 class MissingParamError extends Error {
   constructor (paramName) {
-    super(`Missin param: ${paramName}`)
-    this.name = 'MissinParamError'
+    super(`Missing param: ${paramName}`)
+    this.name = 'MissingParamError'
   }
 }
 
